@@ -27,7 +27,43 @@ def create_app():
     print("basic function")
     @app.route('/intro')
     def intro():
-        return render_template('intro.html')
+        components = [
+            {
+                "id": "intro",
+                "label": "Introduction",
+                "subsections": [
+                    {"id": "intro_sub1", "label": "Background"},
+                    {"id": "intro_sub2", "label": "Purpose"}
+                ]
+            },
+            {
+                "id": "facts",
+                "label": "Statement of Facts",
+                "subsections": []
+            },
+            {
+                "id": "grounds",
+                "label": "Grounds of Defence",
+                "subsections": [
+                    {
+                        "id": "grounds_sub1",
+                        "label": "Legal Grounds"
+                    },
+                    {"id": "grounds_sub2", "label": "Procedural Grounds"}
+                ]
+            },
+            {
+                "id": "evidence",
+                "label": "Supporting Evidence",
+                "subsections": []
+            },
+            {
+                "id": "conclusion",
+                "label": "Conclusion",
+                "subsections": []
+            }
+        ]
+        return render_template('intro.html', components=components)
 
     @app.route('/')
     def hello():

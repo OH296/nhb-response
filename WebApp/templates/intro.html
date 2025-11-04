@@ -4,30 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Legal Defence Portal</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main_style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>Legal Defence Portal</h1>
-        <p class="subtitle">Formal Statement</p>
+    <div class="layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>Defence Sections</h2>
+            <ul>
+                {% for item in components %}
+                    <li>
+                        <a href="#{{ item.id }}" id="link-{{ item.id }}">{{ item.label }}</a>
+                        {% if item.subsections %}
+                            <ul class="subsection-list">
+                                {% for sub in item.subsections %}
+                                    <li><a href="#{{ sub.id }}" id="link-{{ sub.id }}">{{ sub.label }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </aside>
 
-        <div class="statement">
-            <p>
-                The material presented on this page forms part of a formal legal defence within the jurisdiction of England and Wales.
-                It is provided strictly for reference in connection with ongoing or potential legal proceedings.
-            </p>
-            <p>
-                All information is supplied in good faith and may be subject to legal privilege or confidentiality.
-                Unauthorised copying, disclosure, or distribution of this content may constitute a breach of applicable law.
-            </p>
-            <p>
-                If you have received access to this page in error, you are required to notify the responsible party and refrain from any further use of its contents.
-            </p>
-        </div>
+        <!-- Main content -->
+        <main class="main-content">
+            <div class="container">
+                <h1 id="intro">Legal Defence Portal</h1>
+                <p class="subtitle">Formal Statement</p>
 
-        <footer>
-            <p>&copy; {{ 2025 }} Legal Defence Team – England & Wales</p>
-        </footer>
+                {% for item in components %}
+                    <section id="{{ item.id }}" class="defence-section">
+                        <h2>{{ item.label }}</h2>
+                        <p>Content for {{ item.label }} goes here.</p>
+                        {% if item.subsections %}
+                            {% for sub in item.subsections %}
+                                {% if 'dynamic' in item %}
+                                   {{ include item.dynamic }}
+                                {% endif %}
+                                <section id="{{ sub.id }}" class="defence-section">
+                                    <h3>{{ sub.label }}</h3>
+                                    <p>Content for {{ sub.label }} goes here.</p>
+                                    {% if 'dynamic' in sub %}
+                                       {{ include sub.dynamic }}
+                                    {% endif %}
+                                </section>
+                            {% endfor %}
+                        {% endif %}
+                    </section>
+                {% endfor %}
+
+                <footer>
+                    <p>&copy; {{ 2025 }} Legal Defence Team – England & Wales</p>
+                </footer>
+            </div>
+        </main>
     </div>
-</body>
-</html>
+
+    <script>
+        // Scroll highlight for main sections and subsections
+        const sections = document.querySelectorAll('.defence-section');
+        const navLinks = document.querySelectorAll('.sidebar a');
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                const id = entry.target.getAttribute('id');
+                const link = document.getElementById(`link-${id}`);
+                if (entry.isIntersecting) {
+                    navLinks.forEach(l => l.classList.remo
