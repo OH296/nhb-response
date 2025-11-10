@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +12,7 @@
     <div class="layout">
         <!-- Sidebar -->
         <aside class="sidebar">
-            <h2>Defence Sections</h2>
+            <h2>Sections</h2>
             <ul>
                 {% for item in components %}
                     <li>
@@ -33,20 +35,21 @@
                 <h1 id="intro">Legal Defence Portal</h1>
                 <p class="subtitle">Formal Statement</p>
 
-                {% for item in components %}
+                 {% for item in components %}
                     <section id="{{ item.id }}" class="defence-section">
                         <h2>{{ item.label }}</h2>
                         <p>Content for {{ item.label }} goes here.</p>
+
+                        {% if item.dynamic %}
+                            {% include item.dynamic %}
+                        {% endif %}
+
                         {% if item.subsections %}
                             {% for sub in item.subsections %}
-                                {% if 'dynamic' in item %}
-                                   {{ include item.dynamic }}
-                                {% endif %}
                                 <section id="{{ sub.id }}" class="defence-section">
                                     <h3>{{ sub.label }}</h3>
-                                    <p>Content for {{ sub.label }} goes here.</p>
-                                    {% if 'dynamic' in sub %}
-                                       {{ include sub.dynamic }}
+                                    {% if sub.dynamic %}
+                                        {% include sub.dynamic %}
                                     {% endif %}
                                 </section>
                             {% endfor %}

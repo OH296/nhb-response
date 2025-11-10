@@ -31,10 +31,25 @@ def create_app():
             {
                 "id": "intro",
                 "label": "Introduction",
+                "dynamic" : "sections/main_intro.jinja",
                 "subsections": [
-                    {"id": "intro_sub1", "label": "Background"},
+                    {
+                        "id": "intro_sub1", "label": "Background","dynamic" : "sections/background.jinja",
+                    },
                     {"id": "intro_sub2", "label": "Purpose"}
                 ]
+            },
+            {
+                "label" :"Boundaries",
+                "id" : "boundary",
+                "dynamic" : "sections/boundaries.jinja",
+                #"lit_exhibit" : True,
+            },
+            {
+                "label" :"Dumped Garden Waste",
+                "id" : "dumped",
+                "dynamic" : "sections/dumped.jinja",
+                #"lit_exhibit" : True,
             },
             {
                 "id": "facts",
@@ -63,7 +78,7 @@ def create_app():
                 "subsections": []
             }
         ]
-        return render_template('intro.html', components=components)
+        return render_template('intro.html', components=components, deeds = 'images/deeds/',claim_letter = 'images/nhb_claim_letter/', claim_images = 'images/nhb_claim_images/',marketing = 'images/FFH_marketing_photos/', diagrams = 'images/general_diagrams/')
 
     @app.route('/')
     def hello():
